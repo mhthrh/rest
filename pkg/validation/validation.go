@@ -9,6 +9,10 @@ import (
 type Validity struct {
 }
 
+func New() IValidation {
+	return Validity{}
+}
+
 func (v Validity) Create(user *user.User) *errors.Error {
 	if !validation.MobilePhone(user.PhoneNumber) {
 		return errors.NewErrMobilePhone(nil, nil)

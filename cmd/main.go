@@ -1,6 +1,7 @@
 package main
 
 import (
+	"golang.org/x/net/context"
 	"log"
 	"net/http"
 	"os"
@@ -17,9 +18,10 @@ var (
 func init() {
 	osInterrupt = make(chan os.Signal)
 	listenerInterrupt = make(chan error)
-
 }
 func main() {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	log.Printf("start application service, listener address: %s:%s", "", "")
 
 	srv := http.Server{
@@ -41,6 +43,7 @@ func main() {
 	select {
 	case <-osInterrupt:
 		log.Println("OS interrupt received: shutting down server gracefully....")
+		_ = srv.Shutdown(ctx)
 	case err := <-listenerInterrupt:
 		log.Printf("Server listener encountered an error:%v shutting down....", err)
 	}

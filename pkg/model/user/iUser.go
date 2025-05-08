@@ -9,13 +9,13 @@ import (
 
 type User struct {
 	id          uuid.UUID
-	FirstName   string
-	LastName    string
-	Email       string
-	PhoneNumber string
-	Status      Status
-	UserName    string
-	Password    string
+	FirstName   string `json:"firstName"`
+	LastName    string `json:"lastName"`
+	Email       string `json:"email"`
+	PhoneNumber string `json:"phoneNumber"`
+	status      Status
+	UserName    string `json:"userName"`
+	Password    string `json:"password"`
 	createdAt   time.Time
 	updatedAt   time.Time
 	lastLogin   time.Time
@@ -26,4 +26,10 @@ type IUser interface {
 	GetByUserName(ctx context.Context, userName string) (User, *errors.Error)
 	Update(ctx context.Context, user *User) *errors.Error
 	Remove(ctx context.Context, userName string) *errors.Error
+}
+
+func UserInit(u *User) *User {
+	u.id = uuid.New()
+	u.createdAt = time.Now()
+	return u
 }

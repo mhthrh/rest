@@ -21,6 +21,7 @@ func New() *Service {
 	return &Service{
 		logger: logger.NewLogger(),
 		dao:    dao.New(),
+		valid:  validation.New(),
 	}
 }
 func (s Service) Create(ctx context.Context, user *user.User) *errors.Error {
@@ -38,7 +39,7 @@ func (s Service) Create(ctx context.Context, user *user.User) *errors.Error {
 		return err
 	}
 	s.logger.Info(ctx, "user created successfully")
-	return nil
+	return errors.Success()
 
 }
 
@@ -58,7 +59,7 @@ func (s Service) GetByUserName(ctx context.Context, userName string) (user.User,
 		return user.User{}, err
 	}
 	s.logger.Info(ctx, "GetByUserName call was successful")
-	return u, nil
+	return u, errors.Success()
 }
 
 func (s Service) Update(ctx context.Context, user *user.User) *errors.Error {
@@ -78,7 +79,7 @@ func (s Service) Update(ctx context.Context, user *user.User) *errors.Error {
 		return err
 	}
 	s.logger.Info(ctx, "update call was successful")
-	return nil
+	return errors.Success()
 }
 
 func (s Service) Remove(ctx context.Context, userName string) *errors.Error {
@@ -98,5 +99,5 @@ func (s Service) Remove(ctx context.Context, userName string) *errors.Error {
 		return err
 	}
 	s.logger.Info(ctx, "Remove call was successful")
-	return nil
+	return errors.Success()
 }

@@ -9,7 +9,7 @@ func checkToken() gin.HandlerFunc {
 
 	}
 }
-func checkToken2() gin.HandlerFunc {
+func checkAddress() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		
 	}
