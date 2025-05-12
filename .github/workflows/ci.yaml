@@ -27,7 +27,7 @@ jobs:
       #       run: go test -v ./...
 
       - name: Build binary
-        run: go build -o rest_service ./cmd/main.go
+        run: go build -o ./cmd/rest_service ./cmd/main.go
 
       - name: Build and push Docker image
         uses: mr-smithers-excellent/docker-build-push@v4

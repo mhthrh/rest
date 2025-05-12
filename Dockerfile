@@ -16,6 +16,7 @@ WORKDIR app
 RUN mkdir -p ./config/file
 
 COPY ./cmd/rest_service .
+
 COPY ./config/file ./config/file
 
 CMD ["./rest_service"]
