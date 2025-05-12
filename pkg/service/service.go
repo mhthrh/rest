@@ -3,28 +3,28 @@ package service
 import (
 	"context"
 	"fmt"
+	"github.com/mhthrh/common_pkg/pkg/logger"
+	"github.com/mhthrh/common_pkg/pkg/model/user"
+	"github.com/mhthrh/common_pkg/pkg/xErrors"
 	"go.uber.org/zap"
 	"restfullApi/pkg/dao"
-	"restfullApi/pkg/errors"
-	"restfullApi/pkg/logger"
-	"restfullApi/pkg/model/user"
-	"restfullApi/pkg/validation"
+	"restfullApi/pkg/xValidation"
 )
 
 type Service struct {
 	logger logger.ILogger
 	dao    user.IUser
-	valid  validation.IValidation
+	valid  xValidation.IValidation
 }
 
 func New() *Service {
 	return &Service{
 		logger: logger.NewLogger(),
 		dao:    dao.New(),
-		valid:  validation.New(),
+		valid:  xValidation.New(),
 	}
 }
-func (s Service) Create(ctx context.Context, user *user.User) *errors.Error {
+func (s Service) Create(ctx context.Context, user *user.User) *xErrors.Error {
 	s.logger.Info(ctx, "start method Create", zap.Any("user object", user))
 
 	s.logger.Info(ctx, "start parameter validation")
@@ -39,11 +39,11 @@ func (s Service) Create(ctx context.Context, user *user.User) *errors.Error {
 		return err
 	}
 	s.logger.Info(ctx, "user created successfully")
-	return errors.Success()
+	return xErrors.Success()
 
 }
 
-func (s Service) GetByUserName(ctx context.Context, userName string) (user.User, *errors.Error) {
+func (s Service) GetByUserName(ctx context.Context, userName string) (user.User, *xErrors.Error) {
 	s.logger.Info(ctx, "start method GetByUserName", zap.String("user name", userName))
 
 	if err := s.valid.GetByUserName(userName); err != nil {
@@ -59,10 +59,10 @@ func (s Service) GetByUserName(ctx context.Context, userName string) (user.User,
 		return user.User{}, err
 	}
 	s.logger.Info(ctx, "GetByUserName call was successful")
-	return u, errors.Success()
+	return u, xErrors.Success()
 }
 
-func (s Service) Update(ctx context.Context, user *user.User) *errors.Error {
+func (s Service) Update(ctx context.Context, user *user.User) *xErrors.Error {
 	s.logger.Info(ctx, "start method Update", zap.Any("user name", user))
 
 	if err := s.valid.Update(user); err != nil {
@@ -79,10 +79,10 @@ func (s Service) Update(ctx context.Context, user *user.User) *errors.Error {
 		return err
 	}
 	s.logger.Info(ctx, "update call was successful")
-	return errors.Success()
+	return xErrors.Success()
 }
 
-func (s Service) Remove(ctx context.Context, userName string) *errors.Error {
+func (s Service) Remove(ctx context.Context, userName string) *xErrors.Error {
 	s.logger.Info(ctx, "start method Remove", zap.String("user name", userName))
 
 	if err := s.valid.Remove(userName); err != nil {
@@ -99,5 +99,5 @@ func (s Service) Remove(ctx context.Context, userName string) *errors.Error {
 		return err
 	}
 	s.logger.Info(ctx, "Remove call was successful")
-	return errors.Success()
+	return xErrors.Success()
 }

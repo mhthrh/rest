@@ -3,8 +3,8 @@ package api
 import (
 	"context"
 	"github.com/gin-gonic/gin"
-	"restfullApi/pkg/errors"
-	"restfullApi/pkg/model/user"
+	"github.com/mhthrh/common_pkg/pkg/model/user"
+	"github.com/mhthrh/common_pkg/pkg/xErrors"
 	"restfullApi/pkg/service"
 )
 
@@ -18,18 +18,18 @@ func init() {
 
 func create(c *gin.Context) {
 	var (
-		e *errors.Error
+		e *xErrors.Error
 		u user.User
 	)
 
 	defer func() {
-		c.JSON(errors.GetHttpStatus(e, c.Request.Method), e)
+		c.JSON(xErrors.GetHttpStatus(e, c.Request.Method), e)
 	}()
 
 	ctx := context.Background()
 
 	if err := c.BindJSON(&u); err != nil {
-		e = errors.NewErrConvertData(err)
+		e = xErrors.NewErrConvertData(err)
 		return
 	}
 	e = srv.Create(ctx, &u)
@@ -37,21 +37,21 @@ func create(c *gin.Context) {
 
 func getUser(c *gin.Context) {
 	var (
-		e   *errors.Error
+		e   *xErrors.Error
 		key = "userName"
 		u   user.User
 	)
 
 	defer func() {
-		if e.Code == errors.Success().Code {
-			c.JSON(errors.GetHttpStatus(e, c.Request.Method), u)
+		if e.Code == xErrors.Success().Code {
+			c.JSON(xErrors.GetHttpStatus(e, c.Request.Method), u)
 			return
 		}
-		c.JSON(errors.GetHttpStatus(e, c.Request.Method), e)
+		c.JSON(xErrors.GetHttpStatus(e, c.Request.Method), e)
 	}()
 	userName, ok := c.GetQuery(key)
 	if !ok || userName == "" {
-		e = errors.NewErrKeyNotExist(key)
+		e = xErrors.NewErrKeyNotExist(key)
 		return
 	}
 	ctx := context.Background()
@@ -59,34 +59,34 @@ func getUser(c *gin.Context) {
 }
 func updateUser(c *gin.Context) {
 	var (
-		e *errors.Error
+		e *xErrors.Error
 		u user.User
 	)
 
 	defer func() {
-		c.JSON(errors.GetHttpStatus(e, c.Request.Method), e)
+		c.JSON(xErrors.GetHttpStatus(e, c.Request.Method), e)
 	}()
 
 	ctx := context.Background()
 
 	if err := c.BindJSON(&u); err != nil {
-		e = errors.NewErrConvertData(err)
+		e = xErrors.NewErrConvertData(err)
 		return
 	}
 	e = srv.Update(ctx, &u)
 }
 func deleteUser(c *gin.Context) {
 	var (
-		e   *errors.Error
+		e   *xErrors.Error
 		key = "userName"
 	)
 
 	defer func() {
-		c.JSON(errors.GetHttpStatus(e, c.Request.Method), e)
+		c.JSON(xErrors.GetHttpStatus(e, c.Request.Method), e)
 	}()
 	userName, ok := c.GetQuery(key)
 	if !ok || userName == "" {
-		e = errors.NewErrKeyNotExist(key)
+		e = xErrors.NewErrKeyNotExist(key)
 		return
 	}
 	ctx := context.Background()

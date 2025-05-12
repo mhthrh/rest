@@ -7,3 +7,8 @@ build: buildBinary
 	docker build --progress=plain -t $(IMAGE_NAME) .
 run: build
 	docker run --rm -p 9090:9090 $(IMAGE_NAME)
+
+update_lib:
+	sudo chmod +x ./script/update.sh
+	zsh ./script/update.sh
+	#sh ./script/update-lib.sh
