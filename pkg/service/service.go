@@ -17,9 +17,9 @@ type Service struct {
 	valid  xValidation.IValidation
 }
 
-func New() *Service {
+func New(l logger.ILogger) *Service {
 	return &Service{
-		logger: logger.NewLogger(),
+		logger: l,
 		dao:    dao.New(),
 		valid:  xValidation.New(),
 	}

@@ -1,7 +1,11 @@
 IMAGE_NAME=rest_service
+Update_File=./script/update.sh
+Build_File=./script/build.sh
 
 buildBinary:
-	chmod +x ./script/build.sh
+	@if [ ! -x "$(Update_File)" ]; then \
+    		sudo chmod +x $(Build_File) ;\
+    	fi
 	./script/build.sh cmd/main.go $(IMAGE_NAME)
 build: buildBinary
 	docker build --progress=plain -t $(IMAGE_NAME) .
@@ -9,6 +13,10 @@ run: build
 	docker run --rm -p 9090:9090 $(IMAGE_NAME)
 
 update_lib:
-	sudo chmod +x ./script/update.sh
-	zsh ./script/update.sh
+	@if [ ! -x "$(Update_File)" ]; then \
+		sudo chmod +x $(Update_File) ;\
+	fi
+	zsh $(Update_File)
 	#sh ./script/update-lib.sh
+
+.PHONY: buildBinary build run update_lib
