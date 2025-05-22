@@ -54,7 +54,7 @@ func main() {
 	if err != nil {
 		logger.Fatal(ctx, "config reader error", zap.Any("config loader failed", err))
 	}
-	logger.Info(ctx, "customer.v1 service config loaded successfully")
+	logger.Info(ctx, "user service configs loaded successfully")
 	grpcs, err := config.GetGrpcs()
 	if err != nil {
 		logger.Fatal(ctx, "config loader error", zap.Any("config loader failed", err))
@@ -96,7 +96,7 @@ func main() {
 		logger.Info(ctx, "OS interrupt signal received")
 		rpcServer.Stop()
 	case e := <-internalInterrupt:
-		logger.Error(ctx, "customer.v1 service listener interrupt signal received, %+v", zap.Any("lis", e))
+		logger.Error(ctx, "user service listener interrupt signal received, %+v", zap.Any("lis", e))
 	}
 
 	logger.Info(ctx, "stopping user service...")
