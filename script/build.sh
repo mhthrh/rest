@@ -4,7 +4,7 @@ set -e
 
 MAIN_FILE=${1:-main.go}
 
-OUTPUT="cmd/${2-rest_service}"
+OUTPUT="cmd/${2:-usersrv}"
 
 if [ ! -f "$MAIN_FILE" ]; then
   echo "Error: $MAIN_FILE not found."

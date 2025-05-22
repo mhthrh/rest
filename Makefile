@@ -1,4 +1,4 @@
-IMAGE_NAME=rest_service
+IMAGE_NAME=usersrv
 Update_File=./script/update.sh
 Build_File=./script/build.sh
 
@@ -10,7 +10,7 @@ buildBinary:
 build: buildBinary
 	docker build --progress=plain -t $(IMAGE_NAME) .
 run: build
-	docker run --rm -p 9090:9090 $(IMAGE_NAME)
+	docker run --rm -p 8585:8585 $(IMAGE_NAME)
 
 update_lib:
 	@if [ ! -x "$(Update_File)" ]; then \

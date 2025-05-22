@@ -6,17 +6,20 @@ LABEL Email="m.rozbehano@outlook.com"
 RUN apt update && apt install vim -y
 
 ENV APP_ENV=test
-ENV PORT=9090
+ENV PORT=8585
 ENV IP="0.0.0.0"
 
-EXPOSE 9090
+ENV GOPATH=/go
+ENV PATH=$GOPATH/bin:$PATH
 
-WORKDIR app
+EXPOSE 8585
+
+WORKDIR $GOPATH/src/usersrv
 
 RUN mkdir -p ./config/file
 
-COPY ./cmd/rest_service .
+COPY ./cmd/usersrv .
 
-COPY ./config/file ./config/file
+COPY ./config/file/* ./config/file
 
-CMD ["./rest_service"]
+CMD ["./usersrv"]
