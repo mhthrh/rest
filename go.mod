@@ -3,7 +3,7 @@ module restfullApi
 go 1.24.2
 
 require (
-	github.com/mhthrh/common_pkg v0.0.0-20250522193844-aa08abd657c6
+	github.com/mhthrh/common_pkg v0.0.0-20250526224025-32bbb1b4c4b1
 	go.uber.org/zap v1.27.0
 	google.golang.org/grpc v1.72.1
 )

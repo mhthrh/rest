@@ -6,7 +6,6 @@ import (
 	"github.com/mhthrh/common_pkg/pkg/model/user"
 	userGrpc "github.com/mhthrh/common_pkg/pkg/model/user/grpc/v1"
 	"github.com/mhthrh/common_pkg/pkg/xErrors"
-	gError "github.com/mhthrh/common_pkg/pkg/xErrors/grpc/error"
 	"go.uber.org/zap"
 	"google.golang.org/grpc/status"
 	"restfullApi/pkg/service"
@@ -43,10 +42,10 @@ func (u User) Create(ctx context.Context, in *userGrpc.UserRequest) (*userGrpc.E
 		Password:    in.Password,
 	})
 	u.logr.Info(ctx, "get response from service create user", zap.Any("response", err))
-
-	return &userGrpc.Error{
-		Error: convert(err),
-	}, status.Errorf(xErrors.GetGrpcCode(err), xErrors.String(err))
+	kir := &userGrpc.Error{
+		Error: xErrors.Err2Grpc(err),
+	}
+	return kir, status.Errorf(xErrors.GetGrpcCode(err), "%s", xErrors.String(err))
 }
 
 func (u User) GetByUserName(ctx context.Context, in *userGrpc.UserName) (*userGrpc.UserResponse, error) {
@@ -67,7 +66,7 @@ func (u User) GetByUserName(ctx context.Context, in *userGrpc.UserName) (*userGr
 		PhoneNumber: usr.PhoneNumber,
 		UserName:    usr.UserName,
 		Password:    usr.Password,
-	}, Error: convert(err)}, status.Errorf(xErrors.GetGrpcCode(err), xErrors.String(err))
+	}, Error: xErrors.Err2Grpc(err)}, status.Errorf(xErrors.GetGrpcCode(err), xErrors.String(err))
 
 }
 
@@ -87,7 +86,7 @@ func (u User) Update(ctx context.Context, in *userGrpc.UserRequest) (*userGrpc.E
 	u.logr.Info(ctx, "get response from service update user", zap.Any("response", err))
 
 	return &userGrpc.Error{
-		Error: convert(err),
+		Error: xErrors.Err2Grpc(err),
 	}, status.Errorf(xErrors.GetGrpcCode(err), xErrors.String(err))
 }
 
@@ -103,21 +102,6 @@ func (u User) Remove(ctx context.Context, in *userGrpc.UserName) (*userGrpc.Erro
 		return nil, status.Errorf(xErrors.GetGrpcCode(err), xErrors.String(err))
 	}
 	return &userGrpc.Error{
-		Error: convert(err),
+		Error: xErrors.Err2Grpc(err),
 	}, status.Errorf(xErrors.GetGrpcCode(err), xErrors.String(err))
-}
-func convert(e *xErrors.Error) *gError.Error {
-	if e == nil {
-		return &gError.Error{}
-	}
-	return &gError.Error{
-		Code:          e.Code,
-		ErrorType:     e.ErrorType,
-		Message:       e.Message,
-		Detail:        e.Detail,
-		HttpStatus:    int64(e.HttpStatus),
-		GrpcStatus:    int64(e.GrpcStatus),
-		InternalError: xErrors.String(e),
-		Time:          nil,
-	}
 }

@@ -53,6 +53,12 @@ github.com/mhthrh/common_pkg v0.0.0-20250522190755-f7125cbc0709 h1:3EJ6mEal966km
 github.com/mhthrh/common_pkg v0.0.0-20250522190755-f7125cbc0709/go.mod h1:e+T2u9KfriSNpBQyd/wv3T81pOSNByJkpxX/TW5n2CI=
 github.com/mhthrh/common_pkg v0.0.0-20250522193844-aa08abd657c6 h1:T3jDO3nSgnVv6hyZ/Bt5Xt4sG3z9G9CC6JALdG/DYJo=
 github.com/mhthrh/common_pkg v0.0.0-20250522193844-aa08abd657c6/go.mod h1:e+T2u9KfriSNpBQyd/wv3T81pOSNByJkpxX/TW5n2CI=
+github.com/mhthrh/common_pkg v0.0.0-20250523222801-6d0a907ccde4 h1:s6AeYpU6mQ7UDHsLYlN1NZust10MmK2zfokcgmPtNGQ=
+github.com/mhthrh/common_pkg v0.0.0-20250523222801-6d0a907ccde4/go.mod h1:e+T2u9KfriSNpBQyd/wv3T81pOSNByJkpxX/TW5n2CI=
+github.com/mhthrh/common_pkg v0.0.0-20250526214118-48685bfd36f7 h1:3+4ilo/Btn6EY32xGIVrF865DmnDmBaLY3hGHrt1i2k=
+github.com/mhthrh/common_pkg v0.0.0-20250526214118-48685bfd36f7/go.mod h1:e+T2u9KfriSNpBQyd/wv3T81pOSNByJkpxX/TW5n2CI=
+github.com/mhthrh/common_pkg v0.0.0-20250526224025-32bbb1b4c4b1 h1:iKuXPCV6RnXQ1jEX45MSJHB/kEHaWpQXxk5Vnr9bFIc=
+github.com/mhthrh/common_pkg v0.0.0-20250526224025-32bbb1b4c4b1/go.mod h1:0I873rVltJ1Nqr/Tl2fWpirSyfYP1rwS7+/wopnQgzM=
 github.com/pkg/errors v0.8.0/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
