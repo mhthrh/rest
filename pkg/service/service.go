@@ -39,6 +39,7 @@ func (s Service) Create(ctx context.Context, user *user.User) *xErrors.Error {
 		return err
 	}
 	s.logger.Info(ctx, "user created successfully")
+
 	return xErrors.Success()
 
 }
