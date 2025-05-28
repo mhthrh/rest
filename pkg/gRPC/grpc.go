@@ -6,9 +6,9 @@ import (
 	"github.com/mhthrh/common_pkg/pkg/model/user"
 	userGrpc "github.com/mhthrh/common_pkg/pkg/model/user/grpc/v1"
 	"github.com/mhthrh/common_pkg/pkg/xErrors"
-	gError "github.com/mhthrh/common_pkg/pkg/xErrors/grpc/error"
 	"go.uber.org/zap"
 	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/types/known/emptypb"
 	"restfullApi/pkg/service"
 )
 
@@ -29,7 +29,7 @@ func New(l logger.ILogger) User {
 	}
 }
 
-func (u User) Create(ctx context.Context, in *userGrpc.UserRequest) (*userGrpc.Error, error) {
+func (u User) Create(ctx context.Context, in *userGrpc.UserRequest) (*emptypb.Empty, error) {
 	u.logr.Info(ctx, "start grpc create", zap.Any("in user parameters", in))
 
 	u.logr.Info(ctx, "start service create calling")
@@ -43,10 +43,7 @@ func (u User) Create(ctx context.Context, in *userGrpc.UserRequest) (*userGrpc.E
 		Password:    in.Password,
 	})
 	u.logr.Info(ctx, "get response from service create user", zap.Any("response", err))
-
-	return &userGrpc.Error{
-		Error: convert(err),
-	}, status.Errorf(xErrors.GetGrpcCode(err), xErrors.String(err))
+	return &emptypb.Empty{}, status.Errorf(xErrors.GetGrpcCode(err), "%s", xErrors.Yaml(err))
 }
 
 func (u User) GetByUserName(ctx context.Context, in *userGrpc.UserName) (*userGrpc.UserResponse, error) {
@@ -58,7 +55,7 @@ func (u User) GetByUserName(ctx context.Context, in *userGrpc.UserName) (*userGr
 	u.logr.Info(ctx, "get response from service create user", zap.Any("response", err), zap.Any("user info", usr))
 
 	if err.Code != xErrors.SuccessCode {
-		return nil, status.Errorf(xErrors.GetGrpcCode(err), xErrors.String(err))
+		return nil, status.Errorf(xErrors.GetGrpcCode(err), "%s", xErrors.Yaml(err))
 	}
 	return &userGrpc.UserResponse{Usr: &userGrpc.UserRequest{
 		FirstName:   usr.FirstName,
@@ -67,11 +64,11 @@ func (u User) GetByUserName(ctx context.Context, in *userGrpc.UserName) (*userGr
 		PhoneNumber: usr.PhoneNumber,
 		UserName:    usr.UserName,
 		Password:    usr.Password,
-	}, Error: convert(err)}, status.Errorf(xErrors.GetGrpcCode(err), xErrors.String(err))
+	}}, status.Errorf(xErrors.GetGrpcCode(err), "%s", xErrors.Yaml(err))
 
 }
 
-func (u User) Update(ctx context.Context, in *userGrpc.UserRequest) (*userGrpc.Error, error) {
+func (u User) Update(ctx context.Context, in *userGrpc.UserRequest) (*emptypb.Empty, error) {
 	u.logr.Info(ctx, "start grpc Update", zap.Any("in user parameters", in))
 
 	u.logr.Info(ctx, "start service Update calling")
@@ -86,12 +83,10 @@ func (u User) Update(ctx context.Context, in *userGrpc.UserRequest) (*userGrpc.E
 	})
 	u.logr.Info(ctx, "get response from service update user", zap.Any("response", err))
 
-	return &userGrpc.Error{
-		Error: convert(err),
-	}, status.Errorf(xErrors.GetGrpcCode(err), xErrors.String(err))
+	return &emptypb.Empty{}, status.Errorf(xErrors.GetGrpcCode(err), "%s", xErrors.Yaml(err))
 }
 
-func (u User) Remove(ctx context.Context, in *userGrpc.UserName) (*userGrpc.Error, error) {
+func (u User) Remove(ctx context.Context, in *userGrpc.UserName) (*emptypb.Empty, error) {
 	u.logr.Info(ctx, "start grpc remove", zap.Any("in user parameters", in))
 
 	u.logr.Info(ctx, "start service remove calling")
@@ -99,25 +94,5 @@ func (u User) Remove(ctx context.Context, in *userGrpc.UserName) (*userGrpc.Erro
 
 	u.logr.Info(ctx, "get response from service Remove user", zap.Any("response", err))
 
-	if err.Code != xErrors.SuccessCode {
-		return nil, status.Errorf(xErrors.GetGrpcCode(err), xErrors.String(err))
-	}
-	return &userGrpc.Error{
-		Error: convert(err),
-	}, status.Errorf(xErrors.GetGrpcCode(err), xErrors.String(err))
-}
-func convert(e *xErrors.Error) *gError.Error {
-	if e == nil {
-		return &gError.Error{}
-	}
-	return &gError.Error{
-		Code:          e.Code,
-		ErrorType:     e.ErrorType,
-		Message:       e.Message,
-		Detail:        e.Detail,
-		HttpStatus:    int64(e.HttpStatus),
-		GrpcStatus:    int64(e.GrpcStatus),
-		InternalError: xErrors.String(e),
-		Time:          nil,
-	}
+	return &emptypb.Empty{}, status.Errorf(xErrors.GetGrpcCode(err), "%s", xErrors.Yaml(err))
 }
